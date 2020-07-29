@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Jars
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Vfx
+    uniqueID: 1137673089
+    locked: 0
+  - name: Background
+    uniqueID: 2576005223
+    locked: 0
+  - name: Foreground
+    uniqueID: 370953043
+    locked: 0
+  - name: coinDropped
+    uniqueID: 3141980415
+    locked: 0
+  - name: Jars
+    uniqueID: 765922407
+    locked: 0
+  - name: coinNotDropped
+    uniqueID: 1710793565
+    locked: 0
