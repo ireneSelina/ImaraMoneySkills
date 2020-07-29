@@ -78,13 +78,14 @@ public class DragCoin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Initiating touch event
-        // if touch event takes place
-        //int[] touchSize = Touch.activeTouches.Count();
-        if (Touch.activeTouches.Count > 0)
+        if (!finish)
         {
-            if (!finish)
+            // Initiating touch event
+            // if touch event takes place
+            //int[] touchSize = Touch.activeTouches.Count();
+            if (Touch.activeTouches.Count > 0)
             {
+           
                 if (moving)
                 {
                     // get touch position
