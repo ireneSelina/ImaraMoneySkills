@@ -31,13 +31,10 @@ public class DropCoin : MonoBehaviour
         //dragCoin = gameObject.AddComponent<DragCoin>();
         bgMusic = gameObject.AddComponent<AudioSource>();
         bgMusic.playOnAwake = false;
-        bgMusic.loop = true;
         sfxState = gameObject.AddComponent<AudioSource>();
         sfxState.playOnAwake = false;
-        sfxState.loop = true;
         sfxVoice = gameObject.AddComponent<AudioSource>();
         sfxVoice.playOnAwake = false;
-        sfxVoice.loop = true;
 
     }
 
