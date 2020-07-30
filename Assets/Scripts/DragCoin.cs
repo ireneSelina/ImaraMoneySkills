@@ -40,6 +40,15 @@ public class DragCoin : MonoBehaviour
     // coin movement not allowed if you touches not the coin at the first time
     private bool moveAllowed = false;
 
+    Dictionary<string, float> coinScales = new Dictionary<string, float>()
+    {
+          {"Forty_Shilling", .4f},
+          {"Fifty_Cent", .55f},
+          {"One_Shilling", .48f},
+          {"Ten_Shilling", .47f},
+          {"Twenty_Shilling", .5f},
+          {"Five_Shilling", .62f}
+    };
 
     void Awake()
     {
@@ -72,8 +81,11 @@ public class DragCoin : MonoBehaviour
         // Add bouncy material to the coin
         PhysicsMaterial2D mat = new PhysicsMaterial2D
         {
+
             bounciness = 0.75f,
+
             friction = 0.4f
+
         };
 
         draggedCoin.GetComponent<CircleCollider2D>().sharedMaterial = mat;
@@ -90,6 +102,7 @@ public class DragCoin : MonoBehaviour
     {
 
         UpdateOldTouch();
+
         //UpdateNewTouch();
 
     }
@@ -169,13 +182,17 @@ public class DragCoin : MonoBehaviour
             Debug.Log("OnMouseUp.if.transform.position.y is  " + transform.position.y);
 
             transform.position = new Vector3(droppedCoinPosition.transform.position.x,
-                droppedCoinPosition.transform.position.y, droppedCoinPosition.transform.position.z);
+                droppedCoinPosition.transform.position.y - .8f , droppedCoinPosition.transform.position.z);
 
             ScoreCounter.scoreValue += 500;
 
             dropCoin.SoundSystem(false, true, draggedCoinName);
 
-            Destroy(draggedCoin);
+            float draggedCoinScale = coinScales[draggedCoinName];
+
+            transform.localScale = new Vector2(draggedCoinScale, draggedCoinScale);
+
+            //Destroy(draggedCoin);
 
         }
 

@@ -6,30 +6,36 @@ using UnityEngine;
 
 public class DropCoin : MonoBehaviour
 {
-    public AudioSource bgMusic, sfxState, sfxVoice;
+    public AudioSource sfxState, sfxVoice;
+
     public AudioClip[] correct;
+
     public AudioClip incorrect, coinDrop, coinPickUp;
+
     private GameObject matchingJar;
+
     private string coinMatch;
 
     Dictionary<string, string> jarsForCoins = new Dictionary<string, string>()
     {
-          {"Jar-forty-shilling","Forty-shillings"},
-          {"Jar-fifty-cent","Fifty-Cents"},
-          {"Jar-one-shilling","One-shilling"},
-          {"Jar-ten-shilling","Ten-shillings"},
-          {"Jar-twenty-shilling","Twenty-shillings"},
-          {"Jar-five-shilling","Five-shillings"}
+          {"Jar_Forty_Shilling","Forty_Shilling"},
+          {"Jar_Fifty_Cent","Fifty_Cent"},
+          {"Jar_One_Shilling","One_Shilling"},
+          {"Jar_Ten_Shilling","Ten_Shilling"},
+          {"Jar_Twenty_Shilling","Twenty_Shilling"},
+          {"Jar_Five_Shilling","Five_Shilling"}
     };
 
     void Start()
     {
         matchingJar = this.gameObject;
-        bgMusic = this.gameObject.AddComponent<AudioSource>();
-        bgMusic.playOnAwake = false;
+
         sfxState = this.gameObject.AddComponent<AudioSource>();
+
         sfxState.playOnAwake = false;
+
         sfxVoice = this.gameObject.AddComponent<AudioSource>();
+
         sfxVoice.playOnAwake = false;
     }
 
@@ -42,7 +48,6 @@ public class DropCoin : MonoBehaviour
 		    {
 		    	 coinMatch = jarsForCoins[matchingJar.name];
                  
-            
 			     if (!picked && !matched)
 			     {
 				    StartCoroutine(SoundBoom(false));
@@ -57,6 +62,7 @@ public class DropCoin : MonoBehaviour
 		    else if (picked && !matched) 
 		    {
 			    sfxState.clip = coinPickUp;
+
 			    if (!sfxState.isPlaying)
 			    {
 				    sfxState.Play();
@@ -107,5 +113,10 @@ public class DropCoin : MonoBehaviour
             }
         }
         //yield return null;
+    }
+
+    public void ScaleCoin()
+    {
+    
     }
 }
