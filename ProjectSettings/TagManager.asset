@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Jars
+  - CoinsDropped
+  - CoinsNotDropped
+  - Backgrounds
   layers:
   - Default
   - TransparentFX

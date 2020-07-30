@@ -9,81 +9,88 @@ public class DropCoin : MonoBehaviour
     public AudioSource bgMusic, sfxState, sfxVoice;
     public AudioClip[] correct;
     public AudioClip incorrect, coinDrop, coinPickUp;
-    public GameObject selectedJar;
-    private GameObject hiddenJar;
-    public DropCoin DropCoinSS;
-    //private DragCoin dragCoin;
+    private GameObject matchingJar;
+    private string coinMatch;
 
     Dictionary<string, string> jarsForCoins = new Dictionary<string, string>()
     {
-          {"jar-forty-shilling","Forty-shillings"},
-          {"jar-fifty-cent","Fifty-Cents"},
-          {"jar-one-shilling","One-shilling"},
-          {"jar-ten-shilling","Ten-shillings"},
-          {"jar-twenty-shilling","Twenty-shillings"},
-          {"jar-five-shilling","Five-shillings"}
+          {"Jar-forty-shilling","Forty-shillings"},
+          {"Jar-fifty-cent","Fifty-Cents"},
+          {"Jar-one-shilling","One-shilling"},
+          {"Jar-ten-shilling","Ten-shillings"},
+          {"Jar-twenty-shilling","Twenty-shillings"},
+          {"Jar-five-shilling","Five-shillings"}
     };
 
     void Start()
     {
-        hiddenJar = gameObject;
-        //selectedJar = GameObject.Find("");
-        //dragCoin = gameObject.AddComponent<DragCoin>();
-        bgMusic = gameObject.AddComponent<AudioSource>();
+        matchingJar = this.gameObject;
+        bgMusic = this.gameObject.AddComponent<AudioSource>();
         bgMusic.playOnAwake = false;
-        sfxState = gameObject.AddComponent<AudioSource>();
+        sfxState = this.gameObject.AddComponent<AudioSource>();
         sfxState.playOnAwake = false;
-        sfxVoice = gameObject.AddComponent<AudioSource>();
+        sfxVoice = this.gameObject.AddComponent<AudioSource>();
         sfxVoice.playOnAwake = false;
-
     }
 
-    //static DropCoin()
-    //{ //bool picked, bool matched, string coinGameObject) {
-    //    SoundSystem(picked, matched,coinGameObject);
-    //}
 
     public void SoundSystem(bool picked, bool matched, string coinGameObject)
     {
-        
-        if (!picked)
+        if (coinGameObject != null) 
         {
-            sfxState.clip = (AudioClip)coinDrop;
-            if (!sfxState.isPlaying)
-            {
-                sfxState.Play(); 
-            }
-            Debug.Log("coinDrop sound played: ");
-            Debug.Log("jar gameobject  is " +  hiddenJar.name);
-            string coinMatch = jarsForCoins[gameObject.name];
+			if (!picked &&  (matched || !matched) )
+		    {
+		    	 coinMatch = jarsForCoins[matchingJar.name];
+                 
+            
+			     if (!picked && !matched)
+			     {
+				    StartCoroutine(SoundBoom(false));
+			     }
+			 
+			     else if (!picked && matched && coinMatch.Equals(coinGameObject))
+			     {
+				    StartCoroutine(SoundBoom(true));
+			     }			 
+		    }
 
-            if (!matched)
-            {
-                StartCoroutine(SoundBoom(false));
+		    else if (picked && !matched) 
+		    {
+			    sfxState.clip = coinPickUp;
+			    if (!sfxState.isPlaying)
+			    {
+				    sfxState.Play();
+			    }
+
+			    Debug.Log("coinPickUp sound played: " + coinPickUp.name);
             }
-            else if (matched && coinMatch.Equals(coinGameObject))
-            {
-                StartCoroutine(SoundBoom(true));
-            }
+            
+            //  picked = false;
+            //  matched = false;
+            //  coinGameObject = null;
         }
-        else if (picked) 
-        {
-            sfxState.clip = coinPickUp;
-            if (!sfxState.isPlaying)
-            {
-                sfxState.Play();
-            }
-            Debug.Log("coinPickUp sound played: " + coinPickUp.name);
-        }
+        
+
+        
     }
 
     IEnumerator SoundBoom(bool SuccessType)
     {
         if (SuccessType == true)
         {
+            sfxState.clip = (AudioClip)coinDrop;
+
+            if (!sfxState.isPlaying)
+            {
+                sfxState.Play();
+            }
+            Debug.Log("coinDrop sound played: ");
+            Debug.Log("jar gameobject  is " + matchingJar.name);
+
             yield return new WaitForSeconds(1);
 
             sfxVoice.clip = correct[UnityEngine.Random.Range(0, correct.Length)];
+            
             if (!sfxVoice.isPlaying)
             {
                 sfxVoice.Play();
@@ -100,6 +107,5 @@ public class DropCoin : MonoBehaviour
             }
         }
         //yield return null;
-
     }
 }
