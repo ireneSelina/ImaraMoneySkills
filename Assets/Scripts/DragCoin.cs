@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using touchScr = UnityEngine.InputSystem.TouchPhase;
 using System.Linq;
-
+using UnityEngine.SceneManagement;
 
 public class DragCoin : MonoBehaviour
 {
@@ -30,6 +30,8 @@ public class DragCoin : MonoBehaviour
     private DropCoin dropCoin;
 
     bool moving, finish;
+
+    private CircleCollider2D CoinCollider;
 
     //public UnityEngine.InputSystem.Controls.Vector2Control position { get; }
     private Touch touch;
@@ -68,7 +70,7 @@ public class DragCoin : MonoBehaviour
         //Touch touch = new Touch();
         draggedCoinName = gameObject.name;
 
-        draggedCoin = this.gameObject;
+        draggedCoin = gameObject;
 
         dropCoin = correctJar.GetComponent<DropCoin>();
 
@@ -88,7 +90,9 @@ public class DragCoin : MonoBehaviour
 
         };
 
-        draggedCoin.GetComponent<CircleCollider2D>().sharedMaterial = mat;
+        CoinCollider = gameObject.GetComponent<CircleCollider2D>();
+
+        CoinCollider.sharedMaterial = mat;
         
         resetPosition = transform.position;
 
@@ -173,8 +177,8 @@ public class DragCoin : MonoBehaviour
 
         moving = false;
 
-        if (Mathf.Abs(draggedCoin.transform.position.x - droppedCoinPosition.transform.position.x) <= .5f &&
-             Mathf.Abs(draggedCoin.transform.position.y - droppedCoinPosition.transform.position.y) <= .5f)
+        if (Mathf.Abs(draggedCoin.transform.position.x - droppedCoinPosition.transform.position.x) <= 1f &&
+             Mathf.Abs(draggedCoin.transform.position.y - droppedCoinPosition.transform.position.y) <= 1f)
         {
 
             Debug.Log("OnMouseUp.if.transform.position.x is  " + transform.position.x);
@@ -188,11 +192,12 @@ public class DragCoin : MonoBehaviour
 
             dropCoin.SoundSystem(false, true, draggedCoinName);
 
-            float draggedCoinScale = coinScales[draggedCoinName];
+            float draggedCoinScale = coinScales[draggedCoinName] * .8f;
 
             transform.localScale = new Vector2(draggedCoinScale, draggedCoinScale);
 
             //Destroy(draggedCoin);
+            StartCoroutine(WaitToDisableCoin());
 
         }
 
@@ -211,7 +216,52 @@ public class DragCoin : MonoBehaviour
     }
     /****///end of UpdateOldTouch
 
-    
+
+    public void DisableCoin()
+    {
+
+        //this.gameObject.SetActive(false);
+
+        //this.enabled = false;
+
+        DragCoin.Destroy(CoinCollider, 0f);
+
+
+        LoadMainMenu();
+
+        //if (this.enabled)
+        //{
+
+        //    Debug.Log("Object still exists");
+
+        //    this.enabled = false;
+
+        //}
+        //else
+        //{
+
+        //    Debug.Log("Object was destroyed");
+
+        //}
+
+        Destroy(GetComponent<DragCoin>());
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetSceneByBuildIndex(0).name);
+    }
+
+
+    public IEnumerator WaitToDisableCoin()
+    {
+         yield return new WaitForSeconds(.01f);
+
+         DisableCoin();
+
+    }
+
+
     /****///start of UpdateNewTouch
     public void UpdateNewTouch() 
     {
@@ -267,7 +317,7 @@ public class DragCoin : MonoBehaviour
 
                         rb.gravityScale = 0;
 
-                        draggedCoin.GetComponent<CircleCollider2D>().sharedMaterial = null;
+                        CoinCollider.sharedMaterial = null;
 
                         //play coin pickUp sound
                         dropCoin.SoundSystem(true, false, draggedCoinName);
@@ -286,7 +336,7 @@ public class DragCoin : MonoBehaviour
                     //Debug.Log("Update.touch.phase == TouchPhase.Moved : coin enlarged");
 
                     // if you touch the coin and movement is allowed, then you can move it
-                    if (draggedCoin.GetComponent<CircleCollider2D>() == Physics2D.OverlapPoint(touchPosition) && moveAllowed)
+                    if (CoinCollider == Physics2D.OverlapPoint(touchPosition) && moveAllowed)
                         rb.MovePosition(new Vector2(touchPosition.x - deltaX, touchPosition.y - deltaY));
 
                     Debug.Log("Update.touch.phase == TouchPhase.Moved -  drag started ");
@@ -314,15 +364,15 @@ public class DragCoin : MonoBehaviour
                         friction = 0.4f
                     };
 
-                    draggedCoin.GetComponent<CircleCollider2D>().sharedMaterial = mat;
+                    CoinCollider.sharedMaterial = mat;
 
                     // Restore the regular size of the coin.
                     //selectedGameObject.
                     transform.localScale = new Vector2(1/1.05f, 1/1.05f);
                     //Debug.Log("UpdateNewTouch.touch.phase == TouchPhase.Ended : coin restored to normal size ");
 
-                    if (Mathf.Abs(draggedCoin.transform.position.x - droppedCoinPosition.transform.position.x) <= .5f &&
-                        Mathf.Abs(draggedCoin.transform.position.y - droppedCoinPosition.transform.position.y) <= .5f)
+                    if (Mathf.Abs(draggedCoin.transform.position.x - droppedCoinPosition.transform.position.x) <= 1f &&
+                        Mathf.Abs(draggedCoin.transform.position.y - droppedCoinPosition.transform.position.y) <= 1f)
                     {
 
                         Debug.Log("Update.TouchPhase.Ended.if.transform.position.x is  "
@@ -366,6 +416,7 @@ public class DragCoin : MonoBehaviour
         }
 
     }
+    
     /****///end of UpdateNewTouch
 
 

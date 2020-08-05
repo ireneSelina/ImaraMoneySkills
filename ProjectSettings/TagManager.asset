@@ -63,3 +63,12 @@ TagManager:
   - name: coinNotDropped
     uniqueID: 1710793565
     locked: 0
+  - name: JarsWithCoins
+    uniqueID: 154141237
+    locked: 0
+  - name: Arrows
+    uniqueID: 988993725
+    locked: 0
+  - name: Slider
+    uniqueID: 3096667193
+    locked: 0

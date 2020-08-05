@@ -3,7 +3,7 @@ using TMPro;
 
 public class TimeCounter : MonoBehaviour
 {
-    public float timeValue = 60f;
+    public float timeValue = 61f;
 
     public int timeInt;
 
@@ -12,11 +12,20 @@ public class TimeCounter : MonoBehaviour
     public bool timeLeft;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        string timeTextStr = timeText.text;
+
+        string timeValueStr = timeValue.ToString();
+
         timeText = GetComponent <TextMeshProUGUI> ();
 
         timeLeft = true;
+
+        if (timeTextStr != timeValueStr)
+        {
+            timeText.text = timeValueStr;
+        }
         //StartCoroutine ( "CountDownTimer" );
     }
 
@@ -37,13 +46,18 @@ public class TimeCounter : MonoBehaviour
 
         timeText.text = "TIME: " + timeInt + " sec";
 
-        if ( timeValue < 0 )
+        if (timeValue < 0)
         {
-            timeLeft = false ;
+            timeLeft = false;
 
-            Debug.Log ( "No more time left" );
+            Debug.Log("No more time left");
             //show summary UI here
             //go to level completed/ failed menu?
+        }
+        else
+        {
+            Debug.Log("time left is " + timeText.text);
+
         }
     }
 

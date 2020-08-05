@@ -6,15 +6,13 @@ using UnityEngine;
 
 public class DropCoin : MonoBehaviour
 {
-    public AudioSource sfxState, sfxVoice;
-
-    public AudioClip[] correct;
-
-    public AudioClip incorrect, coinDrop, coinPickUp;
 
     private GameObject matchingJar;
 
     private string coinMatch;
+
+    private AudioManager audioManager;
+
 
     Dictionary<string, string> jarsForCoins = new Dictionary<string, string>()
     {
@@ -28,95 +26,56 @@ public class DropCoin : MonoBehaviour
 
     void Start()
     {
+
         matchingJar = this.gameObject;
 
-        sfxState = this.gameObject.AddComponent<AudioSource>();
+        audioManager = this.gameObject.AddComponent<AudioManager>();
 
-        sfxState.playOnAwake = false;
-
-        sfxVoice = this.gameObject.AddComponent<AudioSource>();
-
-        sfxVoice.playOnAwake = false;
     }
 
-
+    
     public void SoundSystem(bool picked, bool matched, string coinGameObject)
     {
-        if (coinGameObject != null) 
+
+        if (coinGameObject != null)
         {
-			if (!picked &&  (matched || !matched) )
-		    {
-		    	 coinMatch = jarsForCoins[matchingJar.name];
-                 
-			     if (!picked && !matched)
-			     {
-				    StartCoroutine(SoundBoom(false));
-			     }
-			 
-			     else if (!picked && matched && coinMatch.Equals(coinGameObject))
-			     {
-				    StartCoroutine(SoundBoom(true));
-			     }			 
-		    }
 
-		    else if (picked && !matched) 
-		    {
-			    sfxState.clip = coinPickUp;
+            if (!picked && (matched || !matched))
+            {
 
-			    if (!sfxState.isPlaying)
-			    {
-				    sfxState.Play();
-			    }
+                coinMatch = jarsForCoins[matchingJar.name];
 
-			    Debug.Log("coinPickUp sound played: " + coinPickUp.name);
+                if (!picked && !matched)
+                {
+
+                    audioManager.PlaySound("AlreadyPickedAndNotMatched");
+
+                }
+
+                else if (!picked && matched && coinMatch.Equals(coinGameObject))
+                {
+
+                    audioManager.PlaySound("AlreadyPickedAndMatched");
+
+                }
             }
-            
+
+            else if (picked && !matched)
+            {
+
+                audioManager.PlaySound("PickedAndNotMatched");
+
+            }
+
             //  picked = false;
             //  matched = false;
             //  coinGameObject = null;
         }
-        
 
-        
+
+
     }
 
-    IEnumerator SoundBoom(bool SuccessType)
-    {
-        if (SuccessType == true)
-        {
-            sfxState.clip = (AudioClip)coinDrop;
 
-            if (!sfxState.isPlaying)
-            {
-                sfxState.Play();
-            }
-            Debug.Log("coinDrop sound played: ");
-            Debug.Log("jar gameobject  is " + matchingJar.name);
 
-            yield return new WaitForSeconds(1);
-
-            sfxVoice.clip = correct[UnityEngine.Random.Range(0, correct.Length)];
-            
-            if (!sfxVoice.isPlaying)
-            {
-                sfxVoice.Play();
-                Debug.Log("correct sound played: ");
-            }
-        }
-        else
-        {
-            sfxVoice.clip = incorrect;
-            if (!sfxVoice.isPlaying)
-            {
-                sfxVoice.Play();
-                Debug.Log("incorrect sound played: " + incorrect.name);
-            }
-        }
-        //yield return null;
-    }
-
-    public void ScaleCoin()
-    {
-    
-    }
 }
