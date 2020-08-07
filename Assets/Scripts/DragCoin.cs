@@ -2,18 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Android;
-using UnityEngine.InputSystem;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
-using touchScr = UnityEngine.InputSystem.TouchPhase;
-using System.Linq;
-using UnityEngine.SceneManagement;
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
+using Vector2 = UnityEngine.Vector2;
+//using UnityEngine.SceneManagement;
+//using UnityEngine.InputSystem;
+//using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
+//using touchScr = UnityEngine.InputSystem.TouchPhase;
 
 public class DragCoin : MonoBehaviour
 {
 
     // touch offset allows coin not to shake when it starts moving
-    float deltaX, deltaY;
+    //float deltaX, deltaY;
 
     public GameObject correctJar, droppedCoinPosition;
 
@@ -21,7 +22,7 @@ public class DragCoin : MonoBehaviour
 
     private float startPosX, startPosY;
 
-    private Vector3 touchPosition;
+    //private Vector3 touchPosition;
 
     private Vector2 resetPosition;
 
@@ -29,18 +30,22 @@ public class DragCoin : MonoBehaviour
 
     private DropCoin dropCoin;
 
+    private HoverCoin hoverCoin;
+
+    private PhysicsMaterial2D mat;
+
     bool moving, finish;
 
     private CircleCollider2D CoinCollider;
 
     //public UnityEngine.InputSystem.Controls.Vector2Control position { get; }
-    private Touch touch;
+    //private Touch touch;
 
     // reference to Rigidbody2D component
     Rigidbody2D rb;
 
     // coin movement not allowed if you touches not the coin at the first time
-    private bool moveAllowed = false;
+    //private bool moveAllowed = false;
 
     Dictionary<string, float> coinScales = new Dictionary<string, float>()
     {
@@ -51,17 +56,7 @@ public class DragCoin : MonoBehaviour
           {"Twenty_Shilling", .5f},
           {"Five_Shilling", .62f}
     };
-
-    void Awake()
-    {
-
-        UnityEngine.InputSystem.EnhancedTouch.EnhancedTouchSupport.Enable();
-
-        foreach (var touch in Touch.activeTouches)
-            Debug.Log($"{touch.touchId}: {touch.screenPosition},{touch.phase}");
-
-    }
-
+    
 
     // Use this for initialization
     void Start()
@@ -74,23 +69,25 @@ public class DragCoin : MonoBehaviour
 
         dropCoin = correctJar.GetComponent<DropCoin>();
 
+        hoverCoin = GetComponent<HoverCoin>();
+
         moving = false;
 
         finish = false;
 
-        rb = draggedCoin.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
 
         // Add bouncy material to the coin
-        PhysicsMaterial2D mat = new PhysicsMaterial2D
+        mat = new PhysicsMaterial2D
         {
 
-            bounciness = 0.75f,
+            bounciness = 0.4f, //was .75
 
             friction = 0.4f
 
         };
 
-        CoinCollider = gameObject.GetComponent<CircleCollider2D>();
+        CoinCollider = GetComponent<CircleCollider2D>();
 
         CoinCollider.sharedMaterial = mat;
         
@@ -112,7 +109,7 @@ public class DragCoin : MonoBehaviour
     }
 
 
-    /****///start of UpdateOldTouch
+    /****///start of UpdateOldTouch 
     public void UpdateOldTouch()
     {
 
@@ -143,6 +140,14 @@ public class DragCoin : MonoBehaviour
     void OnMouseDown()
     {
 
+        OnMouseDownOffloader(); 
+
+    }
+
+
+    public void OnMouseDownOffloader()
+    {
+
         if (Input.GetMouseButtonDown(0))
         {
 
@@ -153,6 +158,16 @@ public class DragCoin : MonoBehaviour
             mousePosOld = Camera.main.ScreenToWorldPoint(mousePosOld);
 
             Debug.Log("OnMouseDown.mousePosOld is " + mousePosOld);
+
+            //physics to allow smooth movement of coin
+            rb.freezeRotation = true;
+
+            rb.velocity = new Vector2(0, 0);
+
+            rb.gravityScale = 0;
+
+            CoinCollider.sharedMaterial = null;
+            //physics end
 
             startPosX = mousePosOld.x - transform.position.x;
 
@@ -175,29 +190,25 @@ public class DragCoin : MonoBehaviour
     void OnMouseUp()
     {
 
+        OnMouseUpOffloader(); 
+
+    }
+
+
+    public void OnMouseUpOffloader() 
+    {
+
         moving = false;
 
         if (Mathf.Abs(draggedCoin.transform.position.x - droppedCoinPosition.transform.position.x) <= 1f &&
              Mathf.Abs(draggedCoin.transform.position.y - droppedCoinPosition.transform.position.y) <= 1f)
         {
 
-            Debug.Log("OnMouseUp.if.transform.position.x is  " + transform.position.x);
-
-            Debug.Log("OnMouseUp.if.transform.position.y is  " + transform.position.y);
-
-            transform.position = new Vector3(droppedCoinPosition.transform.position.x,
-                droppedCoinPosition.transform.position.y - .8f , droppedCoinPosition.transform.position.z);
-
             ScoreCounter.scoreValue += 500;
 
             dropCoin.SoundSystem(false, true, draggedCoinName);
 
-            float draggedCoinScale = coinScales[draggedCoinName] * .8f;
-
-            transform.localScale = new Vector2(draggedCoinScale, draggedCoinScale);
-
-            //Destroy(draggedCoin);
-            StartCoroutine(WaitToDisableCoin());
+            StartCoroutine(BounceCoin());
 
         }
 
@@ -224,10 +235,14 @@ public class DragCoin : MonoBehaviour
 
         //this.enabled = false;
 
-        DragCoin.Destroy(CoinCollider, 0f);
+
+        Destroy(CoinCollider, 0f);
+
+        Destroy(rb, 0f);
+
+        Destroy(hoverCoin, 0f);
 
 
-        LoadMainMenu();
 
         //if (this.enabled)
         //{
@@ -247,192 +262,224 @@ public class DragCoin : MonoBehaviour
         Destroy(GetComponent<DragCoin>());
     }
 
-    public void LoadMainMenu()
+
+    public IEnumerator BounceCoin()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetSceneByBuildIndex(0).name);
-    }
 
 
-    public IEnumerator WaitToDisableCoin()
-    {
-         yield return new WaitForSeconds(.01f);
+        // scale to fit coin in jar;
+        float draggedCoinScale = coinScales[draggedCoinName] * .8f;
 
-         DisableCoin();
+        transform.position = new Vector3(droppedCoinPosition.transform.position.x,
+            transform.position.y, transform.position.z);
+
+        transform.localScale = new Vector2(draggedCoinScale, draggedCoinScale);
+
+        //Change body type to allow free fall bounce coin;
+        //rb.bodyType.Equals(RigidbodyType2D.Dynamic);
+
+        //rb.collisionDetectionMode.Equals(CollisionDetectionMode.ContinuousDynamic);
+
+        //physics to allow coin to drop & bounce
+        rb.freezeRotation = false;
+
+        rb.sharedMaterial = mat;
+
+        //rb.AddForce(new Vector2(0f, -1f) );
+
+        rb.gravityScale = 2f; //was 2
+
+        //wait 1 sec for bounce to finish
+        yield return new WaitForSeconds(2);
+
+        //freeze Transform Position to stick coin in jar
+        transform.position = new Vector3(droppedCoinPosition.transform.position.x,
+            droppedCoinPosition.transform.position.y - .8f, droppedCoinPosition.transform.position.z);
+
+        //Destroy(draggedCoin) 
+
+        yield return new WaitForSeconds(.01f);
+
+        DisableCoin();
 
     }
 
 
     /****///start of UpdateNewTouch
-    public void UpdateNewTouch() 
-    {
+    //public void UpdateNewTouch() 
+    //{
 
-        // Initiating touch event
-        // if touch event takes place
-        if (Touch.activeTouches.Count > 0)
-        {
+    //    // Initiating touch event
+    //    // if touch event takes place
+    //    if (Touch.activeTouches.Count > 0)
+    //    {
 
-            // get touch position
-            //Touch touch = new Touch();
-            touch = Touch.activeTouches.FirstOrDefault();
-            //Input.GetTouch(0);
+    //        // get touch position
+    //        //Touch touch = new Touch();
+    //        touch = Touch.activeTouches.FirstOrDefault();
+    //        //Input.GetTouch(0);
 
-            Vector2 touchScreenPosition = Touchscreen.current.position.ReadValue();
+    //        Vector2 touchScreenPosition = Touchscreen.current.position.ReadValue();
 
-            // obtain touch position
-            touchPosition = Camera.main.ScreenToWorldPoint(touchScreenPosition, 0f); 
-            // Touchscreen.current.position.ReadValue()); // touch.screenPosition);
+    //        // obtain touch position
+    //        touchPosition = Camera.main.ScreenToWorldPoint(touchScreenPosition, 0f); 
+    //        // Touchscreen.current.position.ReadValue()); // touch.screenPosition);
 
-            Debug.Log("Update.if.Input.touchPosition => 0 .position is " + touchPosition);
+    //        Debug.Log("Update.if.Input.touchPosition => 0 .position is " + touchPosition);
 
-            // get touch to take a deal with
-            switch (touch.phase)
-            {
+    //        // get touch to take a deal with
+    //        switch (touch.phase)
+    //        {
 
-                // if you touches the screen
-                case touchScr.Began:
+    //            // if you touches the screen
+    //            case touchScr.Began:
 
-                    // if you touch the coin
-                    if (draggedCoin.GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPosition))
-                    {
+    //                // if you touch the coin
+    //                if (draggedCoin.GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPosition))
+    //                {
 
-                        // get the offset between position you touches
-                        // and the center of the game object
-                        deltaX = touchPosition.x - transform.position.x;
+    //                    // get the offset between position you touches
+    //                    // and the center of the game object
+    //                    deltaX = touchPosition.x - transform.position.x;
 
-                        deltaY = touchPosition.y - transform.position.y;
+    //                    deltaY = touchPosition.y - transform.position.y;
 
-                        Debug.Log("Update.touch.phase == TouchPhase.Began.deltaX is  " + deltaX);
+    //                    Debug.Log("Update.touch.phase == TouchPhase.Began.deltaX is  " + deltaX);
 
-                        Debug.Log("Update.touch.phase == TouchPhase.Began.deltaY is  " + deltaY);
+    //                    Debug.Log("Update.touch.phase == TouchPhase.Began.deltaY is  " + deltaY);
 
-                        // if touch begins within the coin collider
-                        // then it is allowed to move
-                        moveAllowed = true;
+    //                    // if touch begins within the coin collider
+    //                    // then it is allowed to move
+    //                    moveAllowed = true;
 
-                        // restrict some rigidbody properties so it moves
-                        // more smoothly and correctly
-                        rb.freezeRotation = true;
+    //                    // restrict some rigidbody properties so it moves
+    //                    // more smoothly and correctly
+    //                    rb.freezeRotation = true;
 
-                        rb.velocity = new Vector2(0, 0);
+    //                    rb.velocity = new Vector2(0, 0);
 
-                        rb.gravityScale = 0;
+    //                    rb.gravityScale = 0;
 
-                        CoinCollider.sharedMaterial = null;
+    //                    CoinCollider.sharedMaterial = null;
 
-                        //play coin pickUp sound
-                        dropCoin.SoundSystem(true, false, draggedCoinName);
+    //                    //play coin pickUp sound
+    //                    dropCoin.SoundSystem(true, false, draggedCoinName);
 
-                    }
+    //                }
 
-                break;
-
-
-                // you move your finger
-                case touchScr.Moved:
-
-                    //enlarge coin
-                    //selectedGameObject.
-                    transform.localScale = new Vector2(1.05f, 1.05f);
-                    //Debug.Log("Update.touch.phase == TouchPhase.Moved : coin enlarged");
-
-                    // if you touch the coin and movement is allowed, then you can move it
-                    if (CoinCollider == Physics2D.OverlapPoint(touchPosition) && moveAllowed)
-                        rb.MovePosition(new Vector2(touchPosition.x - deltaX, touchPosition.y - deltaY));
-
-                    Debug.Log("Update.touch.phase == TouchPhase.Moved -  drag started ");
-
-                    moving = true;
-
-                break;
+    //            break;
 
 
-                // you release your finger
-                case touchScr.Ended:
+    //            // you move your finger
+    //            case touchScr.Moved:
 
-                    // restore initial parameters
-                    // when touch is ended
-                    moving = false;
+    //                //enlarge coin
+    //                //selectedGameObject.
+    //                transform.localScale = new Vector2(1.05f, 1.05f);
+    //                //Debug.Log("Update.touch.phase == TouchPhase.Moved : coin enlarged");
 
-                    moveAllowed = false;
+    //                // if you touch the coin and movement is allowed, then you can move it
+    //                if (CoinCollider == Physics2D.OverlapPoint(touchPosition) && moveAllowed)
+    //                    rb.MovePosition(new Vector2(touchPosition.x - deltaX, touchPosition.y - deltaY));
 
-                    rb.freezeRotation = false;
+    //                Debug.Log("Update.touch.phase == TouchPhase.Moved -  drag started ");
 
-                    rb.gravityScale = 2;
-                    PhysicsMaterial2D mat = new PhysicsMaterial2D
-                    {
-                        bounciness = 0.75f,
-                        friction = 0.4f
-                    };
+    //                moving = true;
 
-                    CoinCollider.sharedMaterial = mat;
+    //            break;
 
-                    // Restore the regular size of the coin.
-                    //selectedGameObject.
-                    transform.localScale = new Vector2(1/1.05f, 1/1.05f);
-                    //Debug.Log("UpdateNewTouch.touch.phase == TouchPhase.Ended : coin restored to normal size ");
 
-                    if (Mathf.Abs(draggedCoin.transform.position.x - droppedCoinPosition.transform.position.x) <= 1f &&
-                        Mathf.Abs(draggedCoin.transform.position.y - droppedCoinPosition.transform.position.y) <= 1f)
-                    {
+    //            // you release your finger
+    //            case touchScr.Ended:
 
-                        Debug.Log("Update.TouchPhase.Ended.if.transform.position.x is  "
-                            + transform.position.x);
+    //                // restore initial parameters
+    //                // when touch is ended
+    //                moving = false;
 
-                        Debug.Log("Update.TouchPhase.Ended.if.transform.position.y is  "
-                            + transform.position.y);
+    //                moveAllowed = false;
 
-                        //transform.position = new Vector2(droppedCoinPosition.x,   droppedCoinPosition.y);
+    //                rb.freezeRotation = false;
 
-                        Debug.Log("Update.TouchPhase.Ended.if.transform.position: coin was dropped at: "
-                            + transform.position);
+    //                rb.gravityScale = 2;
+    //                PhysicsMaterial2D mat = new PhysicsMaterial2D
+    //                {
+    //                    bounciness = 0.75f,
+    //                    friction = 0.4f
+    //                };
 
-                        ScoreCounter.scoreValue += 500;
+    //                CoinCollider.sharedMaterial = mat;
 
-                        Debug.Log("Update.TouchPhase.Ended.if.ScoreCounter updated: Score is  " + ScoreCounter.scoreValue);
+    //                // Restore the regular size of the coin.
+    //                //selectedGameObject.
+    //                transform.localScale = new Vector2(1/1.05f, 1/1.05f);
+    //                //Debug.Log("UpdateNewTouch.touch.phase == TouchPhase.Ended : coin restored to normal size ");
 
-                        dropCoin.SoundSystem(false, true, draggedCoinName);
+    //                if (Mathf.Abs(draggedCoin.transform.position.x - droppedCoinPosition.transform.position.x) <= 1f &&
+    //                    Mathf.Abs(draggedCoin.transform.position.y - droppedCoinPosition.transform.position.y) <= 1f)
+    //                {
 
-                        //transform.localScale = new Vector2(.01f, .01f);
+    //                    Debug.Log("Update.TouchPhase.Ended.if.transform.position.x is  "
+    //                        + transform.position.x);
 
-                    }
+    //                    Debug.Log("Update.TouchPhase.Ended.if.transform.position.y is  "
+    //                        + transform.position.y);
 
-                    //else if (gameObject)//check if game object isnt destroyed
-                    //{
-                    //
-                    //    transform.position = new Vector2(resetPosition.x, resetPosition.y);
-                    //
-                    //    Debug.Log("Update.TouchPhase.Ended.else.transform.position is  "
-                    //        + transform.position);
-                    //
-                    //    dropCoin.SoundSystem(false, true, draggedCoinName);dropCoin.SoundSystem(false, false, draggedCoinName);
-                    //
-                    //    Destroy(gameObject);
-                    //}
+    //                    //transform.position = new Vector2(droppedCoinPosition.x,   droppedCoinPosition.y);
 
-                break;
+    //                    Debug.Log("Update.TouchPhase.Ended.if.transform.position: coin was dropped at: "
+    //                        + transform.position);
 
-            }
+    //                    ScoreCounter.scoreValue += 500;
+
+    //                    Debug.Log("Update.TouchPhase.Ended.if.ScoreCounter updated: Score is  " + ScoreCounter.scoreValue);
+
+    //                    dropCoin.SoundSystem(false, true, draggedCoinName);
+
+    //                    //transform.localScale = new Vector2(.01f, .01f);
+
+    //                }
+
+    //                //else if (gameObject)//check if game object isnt destroyed
+    //                //{
+    //                //
+    //                //    transform.position = new Vector2(resetPosition.x, resetPosition.y);
+    //                //
+    //                //    Debug.Log("Update.TouchPhase.Ended.else.transform.position is  "
+    //                //        + transform.position);
+    //                //
+    //                //    dropCoin.SoundSystem(false, true, draggedCoinName);dropCoin.SoundSystem(false, false, draggedCoinName);
+    //                //
+    //                //    Destroy(gameObject);
+    //                //}
+
+    //            break;
+
+    //        }
                 
-        }
+    //    }
 
-    }
-    
+    //}
+
     /****///end of UpdateNewTouch
 
 
     /****///Start of Trigger && Collision events
     //void OnCollisionEnter2D(Collision2D collision)
     //{
-    //
-    //    if (collision.gameObject.tag is "Coins")
+
+    //    if (collision.gameObject.tag is "CoinsNotDropped")
     //    {
+    //        Physics2D.IgnoreCollision(collision.collider, CoinCollider);
+
     //        Destroy(draggedCoin);
-    //
+
     //        Debug.Log(gameObject + "has Destroyed from DragCoin.OnCollisionEnter2D " + gameObject.name);
-    //
+
     //    }
-    //
+
     //}
+
+
     //
     //
     //void OnTriggerEnter2D(Collider2D other)

@@ -186,7 +186,7 @@ public class AudioManager : MonoBehaviour
 
             //SfxVoice.clip = Correct[Random.Range(0, Correct.Length)];
 
-            SfxVoice.clip = Random.Range(0, 2) is 1  ? SfxVoice.clip = Correct1 : SfxVoice.clip = Correct2;
+            SfxVoice.clip = Random.Range(0, 2) is 1 ? SfxVoice.clip = Correct1 : SfxVoice.clip = Correct2;
 
             if (!SfxVoice.isPlaying)
             {

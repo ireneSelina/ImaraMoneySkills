@@ -212,9 +212,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 385162954}
-  - {fileID: 2138421149}
-  - {fileID: 890105502}
-  - {fileID: 2074485612}
+  - {fileID: 772588247}
   - {fileID: 252759402}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -433,7 +431,7 @@ GameObject:
   - component: {fileID: 196684706}
   - component: {fileID: 196684705}
   m_Layer: 5
-  m_Name: Match Coins With Jars
+  m_Name: Match_Coins_With_Jars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -479,7 +477,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -511,7 +509,7 @@ GameObject:
   - component: {fileID: 252759404}
   - component: {fileID: 252759403}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Main_Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -529,11 +527,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 85683868}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 125}
+  m_AnchoredPosition: {x: 25.6, y: 128}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &252759403
@@ -584,8 +582,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 66.8
-  m_fontSizeBase: 66.8
+  m_fontSize: 82.2
+  m_fontSizeBase: 82.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -622,7 +620,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -88.216156, y: -36.63211, z: -87.46857, w: 0}
+  m_margin: {x: -237.15027, y: -36.63211, z: -189.05933, w: 0}
   m_textInfo:
     textComponent: {fileID: 252759403}
     characterCount: 9
@@ -988,7 +986,7 @@ GameObject:
   - component: {fileID: 727991163}
   - component: {fileID: 727991162}
   m_Layer: 5
-  m_Name: Which Coins Are More?
+  m_Name: Which_Coins_Are_More
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1034,7 +1032,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -1054,6 +1052,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 727991160}
   m_CullTransparentMesh: 0
+--- !u!1 &772588246
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 772588247}
+  m_Layer: 0
+  m_Name: UI_Buttons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &772588247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772588246}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1820.0488, y: 1004.73804, z: -445.6198}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2138421149}
+  - {fileID: 890105502}
+  - {fileID: 2074485612}
+  m_Father: {fileID: 85683868}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &864313823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1195,7 +1226,7 @@ GameObject:
   - component: {fileID: 890105503}
   - component: {fileID: 890105506}
   m_Layer: 5
-  m_Name: Which Coins Are More?
+  m_Name: Which_Coins_Are_More
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1209,16 +1240,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890105501}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 445.6198}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 727991161}
-  m_Father: {fileID: 85683868}
-  m_RootOrder: 2
+  m_Father: {fileID: 772588247}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -57}
+  m_AnchoredPosition: {x: -1820.0488, y: -1061.738}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &890105503
@@ -1265,7 +1296,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 890105506}
-        m_MethodName: LoadWhichAreMoreCoins
+        m_MethodName: LoadWhichCoinsAreMore
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1500,7 +1531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 2138421148}
+  m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1104693062
@@ -1691,7 +1722,7 @@ GameObject:
   - component: {fileID: 1949995839}
   - component: {fileID: 1949995838}
   m_Layer: 5
-  m_Name: Exit Game
+  m_Name: Exit_Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1737,7 +1768,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -1771,7 +1802,7 @@ GameObject:
   - component: {fileID: 2074485613}
   - component: {fileID: 2074485616}
   m_Layer: 5
-  m_Name: Exit Game
+  m_Name: Exit_Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1785,16 +1816,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074485611}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 445.6198}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1949995837}
-  m_Father: {fileID: 85683868}
-  m_RootOrder: 3
+  m_Father: {fileID: 772588247}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -153}
+  m_AnchoredPosition: {x: -1820.0488, y: -1157.738}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2074485613
@@ -1914,7 +1945,7 @@ GameObject:
   - component: {fileID: 2138421150}
   - component: {fileID: 2138421153}
   m_Layer: 5
-  m_Name: Match Coins With Jars
+  m_Name: Match_Coins_With_Jars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1928,16 +1959,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2138421148}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 445.6198}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 196684704}
-  m_Father: {fileID: 85683868}
-  m_RootOrder: 1
+  m_Father: {fileID: 772588247}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 34}
+  m_AnchoredPosition: {x: -1820.0488, y: -970.73804}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2138421150

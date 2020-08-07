@@ -29,7 +29,7 @@ public class DropCoin : MonoBehaviour
 
         matchingJar = this.gameObject;
 
-        audioManager = this.gameObject.AddComponent<AudioManager>();
+        audioManager = gameObject.AddComponent<AudioManager>();
 
     }
 

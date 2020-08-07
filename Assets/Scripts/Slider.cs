@@ -22,6 +22,8 @@ public class Slider : MonoBehaviour
 
     private BoxCollider2D SliderCollider;
 
+    private MenuScript menuScript;
+
 
 
     // Use this for initialization
@@ -91,8 +93,14 @@ public class Slider : MonoBehaviour
 
     void OnMouseDown()
     {
-        
-        //Debug.Log("OnMouseDown called");
+
+        OnMouseDownOffloader();
+
+    }
+
+
+    public void OnMouseDownOffloader() 
+    {
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -121,9 +129,17 @@ public class Slider : MonoBehaviour
     void OnMouseUp()
     {
 
+        OnMouseUpOffloader(); 
+
+    }
+
+
+    public void OnMouseUpOffloader() 
+    {
+
         moving = false;
 
-        if ( draggedCoin.transform.position.x - resetPosition.x >= 4 && draggedDistance > 0 )
+        if (draggedCoin.transform.position.x - resetPosition.x >= 3 && draggedDistance > 0)
         {
 
             Debug.Log("OnMouseUp.if.transform.position.x is  " + transform.position.x);
@@ -133,7 +149,7 @@ public class Slider : MonoBehaviour
             StartCoroutine(WaitToDisableSlider());
         }
 
-        else if( draggedCoin.transform.position.x - resetPosition.x <= -4 && draggedDistance < 0 )
+        else if (draggedCoin.transform.position.x - resetPosition.x <= -3 && draggedDistance < 0)
 
         {
 
@@ -144,6 +160,7 @@ public class Slider : MonoBehaviour
         }
 
     }
+
     /****///end of UpdateOldTouch
 
 
@@ -156,7 +173,7 @@ public class Slider : MonoBehaviour
 
         Slider.Destroy(SliderCollider, 0f);
 
-        LoadMainMenu();
+        menuScript.LoadMainMenu();
 
         //if (this.enabled)
         //{
@@ -185,12 +202,6 @@ public class Slider : MonoBehaviour
 
         DisableSlider();
 
-    }
-
-
-    public void LoadMainMenu()
-    {
-        SceneManager.LoadSceneAsync(SceneManager.GetSceneByBuildIndex(0).name);
     }
 
 

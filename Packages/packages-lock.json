@@ -98,16 +98,16 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.inputsystem": {
-      "version": "1.0.0",
-      "depth": 0,
+    "com.unity.mathematics": {
+      "version": "1.1.0",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.mathematics": {
-      "version": "1.1.0",
-      "depth": 1,
+    "com.unity.mobile.android-logcat": {
+      "version": "1.1.1",
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -130,13 +130,6 @@
       "dependencies": {
         "com.unity.ugui": "1.0.0"
       },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.timeline": {
-      "version": "1.2.15",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.ugui": {

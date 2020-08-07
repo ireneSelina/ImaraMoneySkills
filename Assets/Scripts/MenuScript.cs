@@ -6,13 +6,17 @@ using UnityEngine.SceneManagement;
 public class MenuScript : MonoBehaviour
 {
     private Scene SceneMainMenu; 
-    private AssetBundle myLoadedAssetBundle;
-    private string[] scenePaths;
 
+    //private AssetBundle myLoadedAssetBundle;
+
+    //private string[] scenePaths;
+
+    public static bool resizableWindow;
 
     // Start is called before the first frame update
     void Start()
     {
+        resizableWindow = true;
         SceneMainMenu = SceneManager.GetSceneByBuildIndex(0);
         //myLoadedAssetBundle = AssetBundle.LoadFromFile("Assets/AssetBundles/scenes");
         //scenePaths = myLoadedAssetBundle.GetAllScenePaths();
@@ -38,7 +42,7 @@ public class MenuScript : MonoBehaviour
     }
 
 
-    public void LoadWhichAreMoreCoins()
+    public void LoadWhichCoinsAreMore()
     {
 
          ChooseSceneIndex(2);
@@ -78,14 +82,17 @@ public class MenuScript : MonoBehaviour
     public void LoadExitGame()
     {
 
-        #if UNITY_EDITOR
-            // Application.Quit() does not work in the editor so
-            // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        PauseGame();
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            PauseGame();
             Application.Quit();
-        #endif
+#endif
 
+        PauseGame();
         Application.Quit();
 
     }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 941743504266292162}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: One_Shilling
   m_TagString: CoinsNotDropped
   m_Icon: {fileID: 0}
@@ -41,9 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 941743504909340852}
   - component: {fileID: 941743504909340851}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: One_Shilling
-  m_TagString: Untagged
+  m_TagString: CoinsNotDropped
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
