@@ -53,7 +53,8 @@ public class MenuScript : MonoBehaviour
     public void LoadMainMenu()
     {
 
-         ChooseSceneIndex(0);
+        ResumeGame();
+        ChooseSceneIndex(0);
         //ChooseScene("Which-Coins-Are-More");
     }
 

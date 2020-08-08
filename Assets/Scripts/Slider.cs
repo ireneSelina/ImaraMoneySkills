@@ -5,14 +5,13 @@ using UnityEngine;
 using UnityEngine.Android;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
-public class Slider : MonoBehaviour
+public class Slider : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
 
     // touch offset allows coin not to shake when it starts moving
     private GameObject draggedCoin;
-
-    private float startPosX, draggedDistance;
 
     private Vector2 resetPosition;
 
@@ -24,18 +23,23 @@ public class Slider : MonoBehaviour
 
     private MenuScript menuScript;
 
-
+    ///startfromdragger
+    Camera mainCamera;
+    float draggedDistance;
+    Vector3 clickOffset = Vector3.zero;
+    ///endfromdragger
 
     // Use this for initialization
     void Start()
     {
+        menuScript = gameObject.AddComponent<MenuScript>();
 
         draggedDistance = 0;
 
         //Touch touch = new Touch();
         draggedCoinName = gameObject.name;
 
-        draggedCoin = this.gameObject;
+        draggedCoin = gameObject;
 
         moving = false;
 
@@ -47,91 +51,66 @@ public class Slider : MonoBehaviour
 
         SliderCollider = gameObject.GetComponent<BoxCollider2D>();
 
+        ///startfromdragger
+            mainCamera = Camera.main;
+             if (mainCamera.GetComponent<Physics2DRaycaster>() == null)
+            mainCamera.gameObject.AddComponent<Physics2DRaycaster>();
+        ///endfromdragger
+
+        ///startfromdragger
+        ///endfromdragger
+
     }
 
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
-        UpdateOldTouch();
+        Vector3 mousePosOld = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.position.x - mousePosOld.x > 0 ? 0 : 180);
 
     }
 
-
-    /****///start of UpdateOldTouch
-    public void UpdateOldTouch()
+    //startfromdragger
+    public void OnBeginDrag(PointerEventData eventData)
     {
 
-        if (!finish)
+        moving = true;
+
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        //Use Offset To Prevent Sprite from Jumping to where the finger is
+        Vector3 tempVec = mainCamera.ScreenToWorldPoint(eventData.position);// + clickOffset;
+
+        //transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.position.x - tempVec.x > 0 ? 0 : 180);
+
+        transform.position = new Vector3(tempVec.x, transform.position.y, transform.position.z); //initially was tempVec;
+
+        if (!finish && moving)
         {
-
-            if (moving)
-            {
-
-                Vector3 mousePosOld;
-
-                mousePosOld = Input.mousePosition;
-
-                mousePosOld = Camera.main.ScreenToWorldPoint(mousePosOld);
-
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.position.x - mousePosOld.x > 0 ? 0 : 180);
-
-                transform.position =
-                    new Vector3(mousePosOld.x - startPosX, transform.position.y, transform.position.z);
-
-                draggedDistance = transform.position.x - resetPosition.x;
-
-                Debug.Log("Update.transform.position is  " + transform.position + " and draggedDistance is  " + draggedDistance);
-
-            }
-
+            draggedDistance = transform.position.x - resetPosition.x;
         }
 
     }
 
-
-    void OnMouseDown()
+    public void OnEndDrag(PointerEventData eventData)
     {
-
-        OnMouseDownOffloader();
+        
+        OnMouseUpOffloader();
 
     }
 
-
-    public void OnMouseDownOffloader() 
+    //Add Event System to the Camera
+    void AddEventSystem()
     {
-
-        if (Input.GetMouseButtonDown(0))
-        {
-
-            Vector3 mousePosOld;
-
-            mousePosOld = Input.mousePosition;
-
-            mousePosOld = Camera.main.ScreenToWorldPoint(mousePosOld);
-
-            Debug.Log("OnMouseDown.mousePosOld is " + mousePosOld);
-
-            startPosX = mousePosOld.x - transform.position.x;
-
-            Debug.Log("OnMouseDown.startPosX is  " + startPosX);
-
-            //play coin pickUp sound
-
-            moving = true;
-
-        }
-
+        GameObject eventSystem = new GameObject("EventSystem");
+        eventSystem.AddComponent<EventSystem>();
+        eventSystem.AddComponent<StandaloneInputModule>();
     }
 
-
-    void OnMouseUp()
-    {
-
-        OnMouseUpOffloader(); 
-
-    }
+    ///endfromdragger
 
 
     public void OnMouseUpOffloader() 
@@ -155,7 +134,7 @@ public class Slider : MonoBehaviour
 
             Debug.Log("OnMouseUp.else.transform.position is  " + transform.position.x);
 
-            ScoreCounter.scoreValue -= 500;
+            //ScoreCounter.scoreValue -= 500;
 
         }
 
@@ -189,8 +168,6 @@ public class Slider : MonoBehaviour
         //    Debug.Log("Object was destroyed");
 
         //}
-
-
 
         Destroy(GetComponent<Slider>());
     }

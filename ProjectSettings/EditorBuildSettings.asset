@@ -14,7 +14,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Which-Coins-Are-More.unity
     guid: 4fab8d5ece4cd8e4e87273c8a79d71e5
-  - enabled: 0
-    path: Assets/Scenes/Guess-The-Value.unity
-    guid: 438dd616471fcf049a9722370a1458f8
   m_configObjects: {}

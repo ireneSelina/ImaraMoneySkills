@@ -45,6 +45,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: HiddenFx
+    uniqueID: 3557571689
+    locked: 0
   - name: Vfx
     uniqueID: 1137673089
     locked: 0
