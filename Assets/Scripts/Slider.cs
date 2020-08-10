@@ -26,7 +26,7 @@ public class Slider : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     ///startfromdragger
     Camera mainCamera;
     float draggedDistance;
-    Vector3 clickOffset = Vector3.zero;
+    //Vector3 clickOffset = Vector3.zero;
     ///endfromdragger
 
     // Use this for initialization

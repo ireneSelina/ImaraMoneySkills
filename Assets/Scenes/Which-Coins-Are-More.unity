@@ -443,6 +443,8 @@ Transform:
   - {fileID: 1814765181}
   - {fileID: 924782746}
   - {fileID: 267520365}
+  - {fileID: 491853296}
+  - {fileID: 903127519}
   m_Father: {fileID: 388862797}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -750,12 +752,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c7fafdc7feaa8408f5454b82567b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oneShilling: {fileID: 941743504489505456}
-  fiveShilling: {fileID: 8731900039466067797}
-  tenShilling: {fileID: 2102879199685508437}
-  twentyShilling: {fileID: 576536935684872273}
-  fortyShilling: {fileID: 8801215167497807254}
-  fiftyCent: {fileID: 8891527505344075032}
+--- !u!1 &491853295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 491853296}
+  m_Layer: 0
+  m_Name: LeftCoins
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &491853296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491853295}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.74, y: -1.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 330625977}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1510,6 +1536,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873208587}
   m_CullTransparentMesh: 0
+--- !u!1 &903127518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 903127519}
+  m_Layer: 0
+  m_Name: RightCoins
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &903127519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903127518}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.74, y: -1.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 330625977}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &904307279
 GameObject:
   m_ObjectHideFlags: 0
@@ -3653,7 +3709,12 @@ PrefabInstance:
     - target: {fileID: 576536935971719369, guid: 53699d6d5719a544aa139067eecafdce,
         type: 3}
       propertyPath: m_Name
-      value: Twenty_Shilling
+      value: Twenty_Shilling_Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 576536935971719369, guid: 53699d6d5719a544aa139067eecafdce,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 576536935971719370, guid: 53699d6d5719a544aa139067eecafdce,
         type: 3}
@@ -3800,7 +3861,17 @@ PrefabInstance:
     - target: {fileID: 941743504266292163, guid: b13934cbd1c36b541810877e7744f8d0,
         type: 3}
       propertyPath: m_Name
-      value: One_Shilling
+      value: One_Shilling_Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 941743504266292163, guid: b13934cbd1c36b541810877e7744f8d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 941743504909340853, guid: b13934cbd1c36b541810877e7744f8d0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b13934cbd1c36b541810877e7744f8d0, type: 3}
@@ -3837,7 +3908,12 @@ PrefabInstance:
     - target: {fileID: 2102879201364599592, guid: 10b2803b9bc7363429c249980897f6d0,
         type: 3}
       propertyPath: m_Name
-      value: Ten_Shilling
+      value: Ten_Shilling_Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 2102879201364599592, guid: 10b2803b9bc7363429c249980897f6d0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2102879201364599593, guid: 10b2803b9bc7363429c249980897f6d0,
         type: 3}
@@ -3929,7 +4005,12 @@ PrefabInstance:
     - target: {fileID: 8731900040900574259, guid: fd85d6ead584ff841a3a83a646a9fd55,
         type: 3}
       propertyPath: m_Name
-      value: Five_Shilling
+      value: Five_Shilling_Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731900040900574259, guid: fd85d6ead584ff841a3a83a646a9fd55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8731900040900574268, guid: fd85d6ead584ff841a3a83a646a9fd55,
         type: 3}
@@ -4021,7 +4102,12 @@ PrefabInstance:
     - target: {fileID: 8801215167125845440, guid: 2e60108208d12df4192ef851f2c67a8c,
         type: 3}
       propertyPath: m_Name
-      value: Forty_Shilling
+      value: Forty_Shilling_Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 8801215167125845440, guid: 2e60108208d12df4192ef851f2c67a8c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8801215167125845443, guid: 2e60108208d12df4192ef851f2c67a8c,
         type: 3}
@@ -4168,7 +4254,12 @@ PrefabInstance:
     - target: {fileID: 8891527506532880431, guid: 14a0973d89f4e9a47a82cb8aa76af70a,
         type: 3}
       propertyPath: m_Name
-      value: Fifty_Cent
+      value: Fifty_Cent_Coin
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891527506532880431, guid: 14a0973d89f4e9a47a82cb8aa76af70a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14a0973d89f4e9a47a82cb8aa76af70a, type: 3}
