@@ -4,14 +4,23 @@ using UnityEngine;
 public class CoinSpawner : MonoBehaviour
 {
     // Create the link list.
-    List<GameObject> CoinCarrierTemp, CoinCarrierPerma;
+    public List<GameObject> CoinCarrierTemp, CoinCarrierPerma;
 
     GameObject LeftCoinCarrier, RightCoinCarrier;
 
     bool CoinsAreDestroyed = false, RightCoinsAreMore;
 
-    float RightCoinsValue, LeftCoinsValue; 
+    float RightCoinsValue, LeftCoinsValue;
 
+    Dictionary<string, float> CoinValuesPerma = new Dictionary<string, float>()
+    {
+          {"Forty_Shilling_Coin",    40f},
+          {"Fifty_Cent_Coin",        .5f},
+          {"One_Shilling_Coin",      1f},
+          {"Ten_Shilling_Coin",      10f},
+          {"Twenty_Shilling_Coin",   20f},
+          {"Five_Shilling_Coin",     5f}
+    };
 
     Dictionary<string, float> CoinValues = new Dictionary<string, float>()
     {
@@ -23,14 +32,21 @@ public class CoinSpawner : MonoBehaviour
           {"Five_Shilling_Coin(Clone)",     5f}
     };
 
+    private void Awake()
+    {
+        CoinCarrierTemp = new List<GameObject>();
 
+        CoinCarrierPerma = new List<GameObject>();
+
+        // CoinCarrierTemp.Add(GameObject.FindGameObjectsWithTag("CoinsNotDropped"));
+    }
     // Start is called before the first frame update
     void Start()
     {
         //oneShilling missileCopy = Instantiate<>();
 
-        CoinCarrierPerma = new List<GameObject>();
-        CoinCarrierTemp = new List<GameObject>(GameObject.FindGameObjectsWithTag("CoinsNotDropped"));
+        //CoinCarrierPerma = new List<GameObject>();
+        //CoinCarrierTemp = new List<GameObject>(GameObject.FindGameObjectsWithTag("CoinsNotDropped"));
         SpawnSystem();
 
     }
@@ -72,17 +88,23 @@ public class CoinSpawner : MonoBehaviour
 
             Vector3 RightCoinCarrierPosition = RightCoinCarrier.transform.position;
 
-        if (CoinCarrierPerma.Count is 0)
+        if (CoinCarrierPerma.Count == 0)
         {
-
-            CoinCarrierTemp = CoinCarrierTemp.Count > 2 ? CoinCarrierTemp : new List<GameObject>(GameObject.FindGameObjectsWithTag("CoinsNotDropped"));
+            if (CoinCarrierTemp.Count == 0)
+            {
+                foreach (GameObject Coin in GameObject.FindGameObjectsWithTag("CoinsNotDropped"))
+                {
+                    CoinCarrierTemp.Add(Coin);
+                }
+            }
+            //CoinCarrierTemp = CoinCarrierTemp.Count > 2 ? CoinCarrierTemp : new List<GameObject>(GameObject.FindGameObjectsWithTag("CoinsNotDropped"));
 
 
             var count = CoinCarrierTemp.Count;
             var last = count - 1;
             for (var i = 0; i < last; ++i)
             {
-                var r = UnityEngine.Random.Range(i, count);
+                var r = Random.Range(i, count);
                 var tmp = CoinCarrierTemp[i];
                 CoinCarrierTemp[i] = CoinCarrierTemp[r];
                 CoinCarrierTemp[r] = tmp;
@@ -107,14 +129,17 @@ public class CoinSpawner : MonoBehaviour
 
                 CoinClone = (GameObject)Instantiate(CoinCarrierTemp[i], LeftCoinCarrier.transform.position + new Vector3(-1, 0, 0), CoinRotation, LeftCoinCarrierClone.transform);
 
-                CoinClone.transform.gameObject.tag = "CoinCarrierTemp";
-                CoinCarrierPerma.Add(CoinClone);
+                CoinClone.transform.gameObject.tag = "CoinCarrierPerma";
+                //CoinCarrierPerma.Add(CoinClone);
 
                 LeftCoinCarrierClone.transform.rotation = Quaternion.AngleAxis(-CoinRotationZ, Vector3.forward);
 
                 LeftCoinsValue += CoinValues[CoinClone.name];
+
                 Debug.Log("LeftCoins Value is" + LeftCoinsValue);
                 Debug.Log((i + 1) + "nth leftCoin is " + CoinClone.name);
+                
+
             }
 
 
@@ -127,13 +152,14 @@ public class CoinSpawner : MonoBehaviour
 
                 GameObject CoinClone = new GameObject(CoinCarrierTemp[i].name);
 
+
                 RightCoinCarrierClone.transform.SetParent(RightCoinCarrier.transform);
                 RightCoinCarrierClone.transform.localPosition = RightCoinCarrierPosition * .1f;
 
                 CoinClone = (GameObject)Instantiate(CoinCarrierTemp[i], RightCoinCarrier.transform.position + new Vector3(-1, 0, 0), CoinRotation, RightCoinCarrierClone.transform);
 
-                CoinClone.transform.gameObject.tag = "CoinCarrierTemp";
-                CoinCarrierPerma.Add(CoinClone);
+                CoinClone.transform.gameObject.tag = "CoinCarrierPerma";
+                //CoinCarrierPerma.Add(CoinClone);
 
                 RightCoinCarrierClone.transform.rotation = Quaternion.AngleAxis(-CoinRotationZ, Vector3.forward);
 
@@ -157,9 +183,18 @@ public class CoinSpawner : MonoBehaviour
 
             if (!CoinsAreDestroyed)
             {
+                //CoinCarrierTemp.Clear();
+                CoinCarrierPerma = new List<GameObject>(GameObject.FindGameObjectsWithTag("CoinCarrierPerma"));
+                foreach (GameObject Coin in CoinCarrierPerma)
+                {
+                    Debug.Log(Coin + " is in CoinCarrierPerma before kill CoinCarrierTemp");
+                    //Coin.SetActive(false);
+                }
+
                 foreach (GameObject Coin in CoinCarrierTemp)
                 {
-                    Destroy(Coin);
+                    Debug.Log(Coin + " is in CoinCarrierTemp");
+                    Coin.SetActive(false);
                 }
                 CoinsAreDestroyed = true;
             }
@@ -167,7 +202,11 @@ public class CoinSpawner : MonoBehaviour
         else 
         {
 
-
+            foreach (GameObject Coin in CoinCarrierPerma)
+            {
+                Debug.Log(Coin + " is in CoinCarrierPerma");
+                //Coin.SetActive(false);
+            }
 
             var count = CoinCarrierPerma.Count;
             var last = count - 1;
@@ -192,16 +231,30 @@ public class CoinSpawner : MonoBehaviour
 
                 var LeftCoinCarrierClone = CoinCarrierPerma[i].transform.parent;
 
-                GameObject CoinClone = new GameObject(CoinCarrierPerma[i].name);
-                LeftCoinCarrierClone.SetParent(LeftCoinCarrier.transform);
+                //LeftCoinCarrierClone.SetParent(LeftCoinCarrier.transform);
 
-                CoinClone.transform.rotation = CoinRotation;
+                CoinCarrierPerma[i].transform.rotation = CoinRotation;
 
                 LeftCoinCarrierClone.transform.rotation = Quaternion.AngleAxis(-CoinRotationZ, Vector3.forward);
 
-                LeftCoinsValue += CoinValues[CoinClone.name];
+                Debug.Log("Left Coin Name  is" + CoinCarrierPerma[i].name);
+
+                try
+                {
+
+                    LeftCoinsValue += CoinValuesPerma[CoinCarrierPerma[i].name];
+
+                }
+                catch (KeyNotFoundException)
+                {
+
+                    LeftCoinsValue += CoinValues[CoinCarrierPerma[i].name];
+                    Debug.Log("LeftCoinsValue += CoinValuesPerma[CoinCarrierPerma[i].name]; key does not exist");
+                    throw;
+                }
+
                 Debug.Log("LeftCoins Value is" + LeftCoinsValue);
-                Debug.Log((i + 1) + "nth leftCoin is " + CoinClone.name);
+                Debug.Log((i + 1) + "nth leftCoin is " + CoinCarrierPerma[i].name);
             }
 
 
@@ -211,13 +264,28 @@ public class CoinSpawner : MonoBehaviour
                 Quaternion CoinRotation = Quaternion.AngleAxis(CoinRotationZ, Vector3.forward);
 
                 var RightCoinCarrierClone = CoinCarrierPerma[i].transform.parent;
-                RightCoinCarrierClone.SetParent(RightCoinCarrier.transform);
+                //RightCoinCarrierClone.SetParent(RightCoinCarrier.transform);
 
                 CoinCarrierPerma[i].transform.rotation = CoinRotation;
 
                 RightCoinCarrierClone.transform.rotation = Quaternion.AngleAxis(-CoinRotationZ, Vector3.forward);
 
-                RightCoinsValue += CoinValues[CoinCarrierPerma[i].name];
+                Debug.Log("Right Coin Name  is" + CoinCarrierPerma[i].name);
+
+                try
+                {
+
+                    RightCoinsValue += CoinValuesPerma[CoinCarrierPerma[i].name];
+
+                }
+                catch (KeyNotFoundException)
+                {
+
+                    RightCoinsValue += CoinValues[CoinCarrierPerma[i].name];
+                    Debug.Log("RightCoinsValue += CoinValuesPerma[CoinCarrierPerma[i].name]; key does not exist");
+                    throw;
+                }
+                
                 Debug.Log("RightCoins Value is" + RightCoinsValue);
                 Debug.Log((i + 1) + "nth RightCoin is " + CoinCarrierPerma[i].name);
             }

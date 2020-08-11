@@ -96,6 +96,8 @@ public class Slider : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     void GetRightCoinsValue() 
     {
         RightCoinsAreMore = coinSpawner.GetRightCoinsAreMore();
+
+        Debug.Log("RightCoinsAreMore is " + RightCoinsAreMore);
     }
 
     public void OnInitializePotentialDrag(PointerEventData eventData)
