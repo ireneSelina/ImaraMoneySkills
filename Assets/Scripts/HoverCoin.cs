@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
@@ -22,17 +20,17 @@ public class HoverCoin : MonoBehaviour
     void Start()
     {
 
-        hoverStatus = true;
+        hoverStatus = false;
 
-        hoverHeight = (maxHeight + minHeight) / 2.0f; //Min and Max height are either not defined or if they are like above i get a field initialiser cannot reference the nonstatic field
+        hoverHeight = (maxHeight + minHeight) / 2.0f;
 
         hoverRange = maxHeight - minHeight;
 
         hoverSpeed = Random.Range(2.99f, 3.01f);
 
-        coinPosition = transform.position;
+        coinPosition = transform.localPosition;
 
-        timeValue = Random.Range(.0f, .02f);
+        timeValue = Random.Range(0f, .01f);
 
     }
 
@@ -40,26 +38,27 @@ public class HoverCoin : MonoBehaviour
     void Update()
     {
 
-        if (Time.deltaTime >= timeValue)
+        if (Time.deltaTime > timeValue)
+        {
+            hoverStatus = true;
+
+            CoinHoverHandler();
+
+        }
+    }
+
+    public void CoinHoverHandler()
+    {
+
+        if (transform.localPosition.x == coinPosition.x)
         {
 
-            if (hoverStatus && transform.position.x == coinPosition.x)
-            {
-
-                transform.position = new Vector3(coinPosition.x, (coinPosition.y + 
-                    (.1f * hoverHeight + Mathf.Cos(Time.time * hoverSpeed) * hoverRange)), coinPosition.z);
-
-            }
+            transform.localPosition = new Vector3(coinPosition.x, (coinPosition.y +
+                (.1f * hoverHeight + Mathf.Cos(Time.time * hoverSpeed) * hoverRange)), coinPosition.z);
 
         }
 
     }
-
-    //public void CoinHoverHandler()
-    //{
-        
-
-    //} 
 
 
 }

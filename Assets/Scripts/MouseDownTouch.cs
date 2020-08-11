@@ -1,15 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MouseDownTouch : MonoBehaviour
 {
     private GameObject lastHitObject;
 
+    public LayerMask myLayerMask;
+
     private void Update()
     {
-        var hit = new RaycastHit2D();
 
+
+        var hit = new RaycastHit2D();
+        var range = new int();
 
         Debug.Log("MouseDownTouch is called");
 
@@ -24,7 +26,7 @@ public class MouseDownTouch : MonoBehaviour
             var ray = Camera.main.ScreenPointToRay(Input.GetTouch(i).position);
 
             //test2
-            
+
             if (Input.GetTouch(i).phase == TouchPhase.Began)
             {
                 var hitObject = hit.transform.gameObject;
@@ -44,7 +46,11 @@ public class MouseDownTouch : MonoBehaviour
 
                 if (Input.GetTouch(i).phase == TouchPhase.Began)
                 {
-
+                    // in a function
+                    if (Physics2D.Raycast(transform.position, transform.forward, range, myLayerMask, 1f))
+                    {
+                        Debug.Log("Touch: OnPointerDown successful");// Do Stuff
+                    }
                     lastHitObject = hitObject;
 
                     hitObject.SendMessage("OnPointerDown");
@@ -72,7 +78,7 @@ public class MouseDownTouch : MonoBehaviour
                     lastHitObject = null;
                 }
             }
-            else 
+            else
             {
 
                 Debug.Log("No objects clicked");

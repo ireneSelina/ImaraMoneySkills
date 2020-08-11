@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
 
 public class TimeCounter : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class TimeCounter : MonoBehaviour
 
         string timeValueStr = timeValue.ToString();
 
-        timeText = GetComponent <TextMeshProUGUI> ();
+        timeText = GetComponent<TextMeshProUGUI>();
 
         timeLeft = true;
 
@@ -32,17 +32,17 @@ public class TimeCounter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ( timeLeft ) 
+        if (timeLeft)
         {
             CountDownTimerB();
         }
     }
 
-    public void CountDownTimerB() 
+    public void CountDownTimerB()
     {
         timeValue -= Time.deltaTime;
 
-        timeInt = ( int ) timeValue;
+        timeInt = (int)timeValue;
 
         timeText.text = "TIME: " + timeInt + " sec";
 

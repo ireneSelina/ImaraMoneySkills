@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour
 {
-    private Scene SceneMainMenu; 
+    private Scene SceneMainMenu;
 
     //private AssetBundle myLoadedAssetBundle;
 
@@ -33,10 +31,10 @@ public class MenuScript : MonoBehaviour
     //    }
     //}
 
-    public void LoadMatchCoinsWithJars() 
+    public void LoadMatchCoinsWithJars()
     {
 
-         ChooseSceneIndex(1);
+        ChooseSceneIndex(1);
         //ChooseScene("Match-Coins-To-Jars");
 
     }
@@ -45,7 +43,7 @@ public class MenuScript : MonoBehaviour
     public void LoadWhichCoinsAreMore()
     {
 
-         ChooseSceneIndex(2);
+        ChooseSceneIndex(2);
         //ChooseScene("Which-Coins-Are-More");
 
     }
@@ -101,14 +99,14 @@ public class MenuScript : MonoBehaviour
 
 
 
-    public void ChooseScene(string SceneName) 
+    public void ChooseScene(string SceneName)
     {
         SceneManager.LoadScene(SceneManager.GetSceneByName(SceneName).name.Length > 0 ? SceneName : SceneMainMenu.name);
         //SceneManager.LoadSceneAsync(SceneManager.GetSceneByName(SceneName).name.Length > 0 ? SceneName : SceneMainMenu.name);
 
     }
 
-    public void ChooseSceneIndex(int SceneIndex) 
+    public void ChooseSceneIndex(int SceneIndex)
     {
         SceneManager.LoadScene(SceneIndex);
         //SceneManager.LoadSceneAsync(SceneManager.GetSceneByBuildIndex(SceneIndex).name);

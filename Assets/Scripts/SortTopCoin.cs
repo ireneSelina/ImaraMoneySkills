@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SortTopCoin : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class SortTopCoin : MonoBehaviour
 
     private void Awake()
     {
-            
+
     }
 
     public void SortCoinToTop(SpriteRenderer spriteDragCoin)

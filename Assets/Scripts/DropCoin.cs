@@ -1,7 +1,4 @@
-﻿using JetBrains.Annotations;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DropCoin : MonoBehaviour
@@ -33,7 +30,7 @@ public class DropCoin : MonoBehaviour
 
     }
 
-    
+
     public void SoundSystem(bool picked, bool matched, string coinGameObject)
     {
 

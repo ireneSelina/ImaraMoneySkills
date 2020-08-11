@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -55,7 +52,7 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void GamePlayAudioManager() 
+    public void GamePlayAudioManager()
     {
         switch (sceneName)
         {
@@ -100,7 +97,7 @@ public class AudioManager : MonoBehaviour
 
                 }
 
-                SfxAmbience.clip =  AmbienceAudio;
+                SfxAmbience.clip = AmbienceAudio;
 
                 if (!SfxAmbience.isPlaying)
                 {
@@ -116,7 +113,7 @@ public class AudioManager : MonoBehaviour
         }
 
 
-    } 
+    }
 
     // Update is called once per frame
     void Update()
@@ -160,7 +157,7 @@ public class AudioManager : MonoBehaviour
 
             default:
 
-                
+
                 break;
         }
     }

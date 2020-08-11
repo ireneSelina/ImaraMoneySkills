@@ -1,10 +1,8 @@
-﻿using UnityEngine.UI;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Numerics;
-using Vector3 = UnityEngine.Vector3;
 using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 //using UnityEngine.SceneManagement;
 //using UnityEngine.InputSystem;
 //using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
@@ -56,7 +54,7 @@ public class DragCoin : MonoBehaviour
           {"Twenty_Shilling", .5f},
           {"Five_Shilling", .62f}
     };
-    
+
 
     // Use this for initialization
     void Start()
@@ -90,10 +88,10 @@ public class DragCoin : MonoBehaviour
         CoinCollider = GetComponent<CircleCollider2D>();
 
         CoinCollider.sharedMaterial = mat;
-        
+
         resetPosition = transform.position;
 
-        Debug.Log("Start.resetPosition of " + draggedCoinName + " is  " + resetPosition); 
+        Debug.Log("Start.resetPosition of " + draggedCoinName + " is  " + resetPosition);
 
     }
 
@@ -140,7 +138,7 @@ public class DragCoin : MonoBehaviour
     void OnMouseDown()
     {
 
-        OnMouseDownOffloader(); 
+        OnMouseDownOffloader();
 
     }
 
@@ -166,6 +164,8 @@ public class DragCoin : MonoBehaviour
 
             rb.gravityScale = 0;
 
+
+
             CoinCollider.sharedMaterial = null;
             //physics end
 
@@ -190,12 +190,12 @@ public class DragCoin : MonoBehaviour
     void OnMouseUp()
     {
 
-        OnMouseUpOffloader(); 
+        OnMouseUpOffloader();
 
     }
 
 
-    public void OnMouseUpOffloader() 
+    public void OnMouseUpOffloader()
     {
 
         moving = false;
@@ -241,6 +241,8 @@ public class DragCoin : MonoBehaviour
         Destroy(rb, 0f);
 
         Destroy(hoverCoin, 0f);
+
+        Destroy(this, 0f);
 
 
 
@@ -306,8 +308,8 @@ public class DragCoin : MonoBehaviour
 
 
     /****///start of UpdateNewTouch
-    //public void UpdateNewTouch() 
-    //{
+          //public void UpdateNewTouch() 
+          //{
 
     //    // Initiating touch event
     //    // if touch event takes place
@@ -455,7 +457,7 @@ public class DragCoin : MonoBehaviour
     //            break;
 
     //        }
-                
+
     //    }
 
     //}
@@ -464,8 +466,8 @@ public class DragCoin : MonoBehaviour
 
 
     /****///Start of Trigger && Collision events
-    //void OnCollisionEnter2D(Collision2D collision)
-    //{
+          //void OnCollisionEnter2D(Collision2D collision)
+          //{
 
     //    if (collision.gameObject.tag is "CoinsNotDropped")
     //    {
