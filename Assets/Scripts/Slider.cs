@@ -166,7 +166,7 @@ public class Slider : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         cycleNumber++;
 
-        if (cycleNumber >= 3)
+        if (cycleNumber == 3)
         {
 
             StartCoroutine(WaitToDisableSlider());
@@ -188,7 +188,7 @@ public class Slider : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         cycleNumber++;
 
-        if (cycleNumber >= 3)
+        if (cycleNumber == 3)
         {
 
             StartCoroutine(WaitToDisableSlider());
@@ -220,7 +220,8 @@ public class Slider : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         }
 
-        else if (draggedCoin.transform.position.x - resetPosition.x <= -3 && draggedDistance < 0)
+        //else 
+        if (draggedCoin.transform.position.x - resetPosition.x <= -3 && draggedDistance < 0)
 
         {
 

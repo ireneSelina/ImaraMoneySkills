@@ -17,7 +17,7 @@ public class ScoreCounter : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        scoreText = new TextMeshProUGUI();
+        gameObject.AddComponent<TextMeshProUGUI>();
         scoreText = GetComponent<TextMeshProUGUI>();
 
         if (SceneManager.GetActiveScene().Equals("Which-Coins-Are-More"))
@@ -37,13 +37,14 @@ public class ScoreCounter : MonoBehaviour
     void Awake()
     {
 
-        scoreText = GetComponent<TextMeshProUGUI>();
+        //scoreText = GetComponent<TextMeshProUGUI>();
 
 
     }
 
     private void Update()
     {
+
         scoreText.text = "Score: " + scoreValue;
     }
 
