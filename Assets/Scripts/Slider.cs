@@ -186,6 +186,8 @@ public class Slider : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         Debug.Log("OnMouseUp.else.transform.position is  " + transform.position.x);
 
+        transform.position = resetPosition;
+
         cycleNumber++;
 
         if (cycleNumber == 3)

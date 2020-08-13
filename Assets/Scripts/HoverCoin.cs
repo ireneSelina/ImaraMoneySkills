@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
@@ -16,11 +17,23 @@ public class HoverCoin : MonoBehaviour
 
     public int timeInt;
 
+    Scene currentScene;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        currentScene = SceneManager.GetActiveScene();
 
-        hoverStatus = false;
+        if (currentScene == SceneManager.GetSceneByBuildIndex(1))
+        {
+            hoverStatus = false;
+        }
+        else 
+        {
+            hoverStatus = true;
+        }
+
 
         hoverHeight = (maxHeight + minHeight) / 2.0f;
 
@@ -28,32 +41,46 @@ public class HoverCoin : MonoBehaviour
 
         hoverSpeed = Random.Range(2.99f, 3.01f);
 
-        coinPosition = transform.localPosition;
+        coinPosition = transform.position;
 
-        timeValue = Random.Range(0f, .01f);
+        timeValue = Random.Range(0f, .1f);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Time.deltaTime > timeValue)
+        if (hoverStatus)
         {
-            hoverStatus = true;
 
-            CoinHoverHandler();
+            transform.position = new Vector3(coinPosition.x, (coinPosition.y +
+                (.1f * hoverHeight + Mathf.Cos(Time.time * hoverSpeed) * hoverRange)), coinPosition.z);
 
         }
+
+        else 
+
+        {
+             
+            CoinHoverHandler();
+
+            //if (Time.deltaTime > timeValue)
+            //{
+
+
+            //}
+
+        }
+
     }
 
     public void CoinHoverHandler()
     {
 
-        if (transform.localPosition.x == coinPosition.x)
+        if (transform.position.x == coinPosition.x)
         {
 
-            transform.localPosition = new Vector3(coinPosition.x, (coinPosition.y +
+            transform.position = new Vector3(coinPosition.x, (coinPosition.y +
                 (.1f * hoverHeight + Mathf.Cos(Time.time * hoverSpeed) * hoverRange)), coinPosition.z);
 
         }

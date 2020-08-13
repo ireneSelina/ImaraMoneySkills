@@ -763,7 +763,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491853295}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.74, y: -1.45, z: 0}
+  m_LocalPosition: {x: -4.74, y: -2.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 330625977}
@@ -1505,7 +1505,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 903127518}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.74, y: -1.45, z: 0}
+  m_LocalPosition: {x: 4.74, y: -2.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 330625977}
@@ -3624,7 +3624,6 @@ MonoBehaviour:
   maxHeight: 0.1
   minHeight: 0.05
   hoverStatus: 0
-  timeValue: 0
   timeInt: 0
 --- !u!1001 &941743504489505455
 PrefabInstance:
@@ -3726,7 +3725,6 @@ MonoBehaviour:
   maxHeight: 0.1
   minHeight: 0.05
   hoverStatus: 0
-  timeValue: 0
   timeInt: 0
 --- !u!1001 &2102879199685508436
 PrefabInstance:
@@ -3823,7 +3821,6 @@ MonoBehaviour:
   maxHeight: 0.1
   minHeight: 0.05
   hoverStatus: 0
-  timeValue: 0
   timeInt: 0
 --- !u!1001 &8731900039466067796
 PrefabInstance:
@@ -3920,7 +3917,6 @@ MonoBehaviour:
   maxHeight: 0.1
   minHeight: 0.05
   hoverStatus: 0
-  timeValue: 0
   timeInt: 0
 --- !u!1001 &8801215167497807253
 PrefabInstance:
@@ -4017,7 +4013,6 @@ MonoBehaviour:
   maxHeight: 0.1
   minHeight: 0.05
   hoverStatus: 0
-  timeValue: 0
   timeInt: 0
 --- !u!1001 &8891527505344075031
 PrefabInstance:
@@ -4114,5 +4109,4 @@ MonoBehaviour:
   maxHeight: 0.1
   minHeight: 0.05
   hoverStatus: 0
-  timeValue: 0
   timeInt: 0
